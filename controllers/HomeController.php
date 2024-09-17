@@ -94,7 +94,7 @@ class HomeController {
             case 'new-saloon':
                 $this->display(); // Affiche le formulaire pour un nouveau salon
                 break;
-            case 'add-Saloon':
+            case 'add-saloon':
                 $this->addSaloon();
                 break;
             case 'update-saloon':
