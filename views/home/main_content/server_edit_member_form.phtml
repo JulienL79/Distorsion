@@ -1,0 +1,17 @@
+<form action="index.php?page=home&action=update-member" method="post" class='bigForm'>
+            
+    <h3><?= htmlspecialchars($memberPseudo); ?></h3>
+    
+    <input type="hidden" name="user-id" value="<?= htmlspecialchars($userTargetId); ?>">
+
+    <label for="role">Rôle</label>
+    <select name="role" id="role" required>
+        <option value="user" <?= ($memberRole === 'user') ? 'selected' : ''; ?>>Utilisateur</option>
+        <option value="admin" <?= ($memberRole === 'admin') ? 'selected' : ''; ?>>Administrateur</option>
+    </select>
+
+    <button type="submit">Modifier</button>
+    <?php if($userTargetId !== $currentUserId): ?>
+        <a href="index.php?page=home&action=delete-member&user-id=<?= htmlspecialchars($userTargetId); ?>" class='button delete-btn delete'>Exclure le membre</a>
+    <?php endif; ?>
+</form>

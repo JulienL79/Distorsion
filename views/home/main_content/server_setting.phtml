@@ -1,0 +1,53 @@
+<div class="title">
+    <h3><?= htmlspecialchars($serverName); ?> (ID : <?= htmlspecialchars($serverId); ?>)</h3>
+    <?php if(isset($_SESSION['user']['role']) && !($_SESSION['user']['role'] === 'admin' && $adminCount === 1)): ?>
+        <a href="index.php?page=home&action=delete-member" class="button delete-btn delete server-delete">Quitter le serveur</a>
+    <?php endif; ?>
+    <?php if(isset($errorToShow) && $errorToShow): ?>
+        <div class="error"><?= htmlspecialchars($errorToShow) ?></div>
+    <?php endif; ?>
+</div>
+<div class='split'>
+    <div class="member-list">
+        <h3>Liste des membres du serveur:</h3>
+        
+        <ul>
+            <?php foreach ($members as $member): ?>
+                <?php $memberId = $member->getId(); ?>
+                <?php $role = $membersRolesAndDates[$memberId]['role']; ?>
+                <?php $joinedAt = new DateTime($membersRolesAndDates[$memberId]['joined_at']); ?>
+                <?php $joinedAt = $joinedAt->format('d/m/Y'); ?>
+                <li class="member-info">
+                    <span>
+                        <strong><?= htmlspecialchars($member->getPseudo()); ?></strong> 
+                        [<?= htmlspecialchars($role); ?>]
+                        <span class='date'>ajouté le <?= htmlspecialchars($joinedAt); ?></span>
+                    </span>
+                    
+                    <?php if ($currentUserRole === 'admin'): ?>
+                        <?php if ($role === 'admin' && $adminCount === 1): ?>
+                        <?php else: ?>
+                            <a href="index.php?page=home&action=edit-member&user_id=<?= htmlspecialchars($member->getId()); ?>" class="edit-icon">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    
+    <?php if($currentUserRole === 'admin'): ?>
+    
+        <?php if ($action === 'edit-server' || $action === 'delete-member'): ?>
+        
+            <?php require './views/home/main_content/server_edit_form.phtml' ?>
+        
+        <?php elseif ($action === 'edit-member'): ?>
+        
+            <?php require './views/home/main_content/server_edit_member_form.phtml' ?>
+        
+        <?php endif; ?>
+        
+    <?php endif; ?>
+</div>

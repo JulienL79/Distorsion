@@ -1,0 +1,30 @@
+<div class="split">
+    <form action="index.php?page=home&action=add-server" method="post" class='bigForm'>
+        <h3>Créer un serveur</h3>
+        <label for="name">Nom du serveur</label>
+        <input type="text" name="name" id="name" required autofocus>
+        
+        <label for="password">Mot de passe du serveur</label>
+        <input type="password" name="password" id="password" required>
+        
+        <label for="status">Choisir le statut du serveur :</label>
+        <select name="status" id="status" required>
+            <option value="public">Public</option>
+            <option value="private">Privé</option>
+        </select>
+        
+        <button type="submit">Créer</button>
+    </form>
+    <form action="index.php?page=home&action=join-server" method="post" class='bigForm'>
+        <h3>Rejoindre un serveur</h3>
+        <label for="server-id">ID du serveur</label>
+        <input type="text" name="server-id" id="server-id" required autofocus>
+        <label for="password">Mot de passe du serveur</label>
+        <input type="password" name="password" id="password" required>
+        <?php if(isset($errorToShow) && $errorToShow): ?>
+            <div class="error"><?= htmlspecialchars($errorToShow) ?></div>
+        <?php endif; ?>
+        <button type="submit">Rejoindre</button>
+    </form>
+</div>
+

@@ -1,0 +1,84 @@
+<h3>Création de compte</h3>
+
+<form method="post" class='bigForm signUp'>
+
+    <label for="firstname">Prénom :</label>
+    <input type="text" name="firstname" id="firstname" maxlength="100" required>
+    <?php if (!empty($errors['firstname'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['firstname']) ?></div>
+    <?php endif; ?>
+
+    <label for="lastname">Nom :</label>
+    <input type="text" name="lastname" id="lastname" maxlength="100" required>
+    <?php if (!empty($errors['lastname'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['lastname']) ?></div>
+    <?php endif; ?>
+    
+    <label for="pseudo">Pseudo :</label>
+    <input type="text" name="pseudo" id="pseudo" maxlength="50" required>
+    <?php if (!empty($errors['pseudo'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['pseudo']) ?></div>
+    <?php endif; ?>
+    
+    <label for="email">Email :</label>
+    <input type="email" name="email" id="email" maxlength="255" required>
+    <?php if (!empty($errors['email'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['email']) ?></div>
+    <?php endif; ?>
+    
+    <label for="tel">Téléphone :</label>
+    <input type="tel" name="tel" id="tel" maxlength="10" pattern="\d{10}" required>
+    <?php if (!empty($errors['tel'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['tel']) ?></div>
+    <?php endif; ?>
+
+    <label for="birthdate">Date de naissance :</label>
+    <input type="date" name="birthdate" id="birthdate" required>
+    <?php if (!empty($errors['birthdate'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['birthdate']) ?></div>
+    <?php endif; ?>
+
+    <label for="address-number">Numéro de rue :</label>
+    <input type="number" name="address-number" id="address-number">
+    <?php if (!empty($errors['address-number'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['address-number']) ?></div>
+    <?php endif; ?>
+
+    <label for="address-street">Nom de rue :</label>
+    <input type="text" name="address-street" id="address-street" maxlength="255" required>
+    <?php if (!empty($errors['address-street'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['address-street']) ?></div>
+    <?php endif; ?>
+
+    <label for="address-city">Ville :</label>
+    <input type="text" name="address-city" id="address-city" maxlength="255" required>
+    <?php if (!empty($errors['address-city'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['address-city']) ?></div>
+    <?php endif; ?>
+
+    <label for="address-postal-code">Code postal :</label>
+    <input type="text" name="address-postal-code" id="address-postal-code" maxlength="5" pattern="\d{5}" required>
+    <?php if (!empty($errors['address-postal-code'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['address-postal-code']) ?></div>
+    <?php endif; ?>
+
+    <label for="address-country">Pays :</label>
+    <input type="text" name="address-country" id="address-country" maxlength="255" required>
+    <?php if (!empty($errors['address-country'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['address-country']) ?></div>
+    <?php endif; ?>
+    
+    <label for="password">Mot de passe :</label>
+    <input type="password" name="password" id="password" maxlength="255" required>
+    <?php if (!empty($errors['password'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['password']) ?></div>
+    <?php endif; ?>
+    
+    <label for="password-confirm">Confirmez le mot de passe :</label>
+    <input type="password" name="password-confirm" id="password-confirm" maxlength="255" required>
+    <?php if (!empty($errors['password-confirm'])): ?>
+        <div class="error"><?= htmlspecialchars($errors['password-confirm']) ?></div>
+    <?php endif; ?>
+
+    <button type="submit" name='submit'>Créer</button>
+</form>

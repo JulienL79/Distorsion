@@ -1,0 +1,33 @@
+<div class="chat">
+    <div class="message-list">
+        <?php if ($currentSaloonId && !empty($messages)): ?>
+        <ul>
+            <?php $lastMessageDate = null; ?>
+            <?php foreach ($messages as $message): ?>
+                <?php $messageDate = $message->getSendingDate()->format('Y-m-d'); ?>
+                <?php if($messageDate !== $lastMessageDate): ?>
+                    <li class="date-separator">
+                        <strong>- <?= htmlspecialchars($message->getSendingDate()->format('d/m/Y')); ?> -</strong>
+                    </li>
+                    <?php $lastMessageDate = $messageDate; ?>
+                <?php endif; ?>
+                <?php $user = $userRepository->getUserById($message->getIdUser()); ?>
+                <?php $userPseudo = $user->getPseudo(); ?>
+                <li class='message'><span class='name'><?= htmlspecialchars($userPseudo); ?> ~</span><span class='date'>[<?= htmlspecialchars($message->getSendingDate()->format('H:i')); ?>]</span><?= htmlspecialchars($message->getContent()); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php elseif ($currentSaloonId): ?>
+            <p class='message'>Aucun message trouvé dans ce salon.</p>
+        <?php else: ?>
+            <p class='message'>Sélectionnez un salon pour afficher ses messages.</p>
+        <?php endif; ?>
+    </div>
+    <!-- Formulaire d'ajout de message -->
+    <form action="index.php?page=home&action=add-message" method="post" class='message-input'>
+        <input type="hidden" name="saloon-id" value="<?= htmlspecialchars($currentSaloonId); ?>">
+        <input type="hidden" name="server-id" value="<?= htmlspecialchars($serverId); ?>">
+        <label for="content">Message</label>
+        <input type="text" name="content" id="content" required class='new-message'>
+        <button type="submit">Envoyer</button>
+    </form>
+</div>

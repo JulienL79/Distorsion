@@ -1,0 +1,15 @@
+<h3>Connexion</h3>
+
+<form method='post' class='bigForm'>
+    <label for='pseudo'>Pseudo :</label>
+    <input type='text' name='pseudo' id='pseudo'/>
+    <label for='password'>Mot de passe :</label>
+    <input type='password' name='password' id='password'/>
+    
+    <?php if ($error !== null) : ?>
+        <p class='error'><?= $error; ?></p>
+    <?php endif; ?>
+    
+    <button type='submit' name='submit'>Se connecter</button>
+    <a href='index.php?page=profile&action=sign-up'>Pas encore inscrit ?</a>
+</form>

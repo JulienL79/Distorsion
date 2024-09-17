@@ -1,0 +1,19 @@
+<form action="index.php?page=home&action=update-server" method="post" class='bigForm'>
+            
+    <h3>Modifier/Supprimer le serveur</h3>
+
+    <label for="name">Nom du serveur</label>
+    <input type="text" name="name" id="name" value="<?= htmlspecialchars($serverName); ?>" required autofocus>
+    
+    <label for="password">Mot de passe du serveur</label>
+    <input type="password" name="password" id="password" placeholder="Laisser vide pour ne pas modifier" >
+    
+    <label for="status">Choisir le statut du serveur :</label>
+    <select name="status" id="status" required>
+        <option value="public" <?= ($serverStatus === 'public') ? 'selected' : ''; ?>>Public</option>
+        <option value="private" <?= ($serverStatus === 'private') ? 'selected' : ''; ?>>Privé</option>
+    </select>
+    
+    <button type="submit">Modifier</button>
+    <a href='index.php?page=home&action=delete-server' class='button delete-btn delete'>Supprimer le serveur</a>
+</form>

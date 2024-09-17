@@ -1,0 +1,184 @@
+<div class="container">
+    <!-- *********************************************************************************
+    ************************* Navigation des servers ************************************ -->
+    <ul class="server-list">
+        <li>
+            <a href="index.php?page=home&action=new-server">
+                <i class="fa-solid fa-circle-plus server"></i>
+            </a>
+        </li>
+        <li>
+            <a href="index.php?page=home&action=filter">
+                <i class="fa-solid fa-filter server"></i>
+            </a>
+        </li>
+        <?php if(!empty($servers)): ?>
+            <?php foreach ($servers as $server): ?>
+                <?php $serverIdUrl = $server->getId(); ?>
+                <li>
+                    <a href="index.php?page=home&server-id=<?= htmlspecialchars($serverIdUrl); ?>" class='server'>
+                        <?= htmlspecialchars(Utilities::getInitials($server->getName())); ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </ul>
+    <aside <?php if ($action === 'edit-server' || $action === 'edit-member' || $action === 'delete-member' || $action === 'new-server'): ?>style='display: none'<?php endif; ?>>
+        <div> <!-- Navigation des catégories et salons -->
+            <h3>
+                <?php if($serverId): ?>
+                    <div class="space">
+                        <?= htmlspecialchars($serverName); ?>
+                        <div class="admin-choice">
+                            <a href="index.php?page=home&action=edit-server">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            <?php if ($currentUserRole === 'admin'): ?>
+                                <a href="index.php?page=home&action=new-category">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    Aucun serveur choisi
+                <?php endif; ?>
+            </h3>
+            
+            <!-- *********************************************************************************
+               ************************* Navigation des categories ************************************ -->
+            
+            <ul class='category-list'>
+                <?php if ($serverId): ?>
+                
+                    <?php if ($action === 'new-category'): ?>
+                        <li>
+                            <form action="index.php?page=home&action=add-category" method="post">
+                                <input type="hidden" name="id-server-chat" value="<?= htmlspecialchars($serverId); ?>">
+                                <input type="text" name="name" placeholder="Nom de la catégorie" autofocus>
+                                <input type="submit" style="display: none;"> <!-- Champ submit caché -->
+                            </form>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <?php if(empty($categories)): ?>
+                        <li>Aucune catégorie trouvée.</li>
+                    <?php else: ?>
+                    
+                        <?php foreach ($categories as $category): ?>
+                        
+                            <?php $categoryId = $category->getId(); ?>
+                            <li>
+                                <strong>
+                                    <?php if($action === 'edit-category' && $categoryId == $currentCategoryId && $currentUserRole === 'admin'): ?>
+                                        <form action="index.php?page=home&action=update-category&category-id=<?= htmlspecialchars($categoryId); ?>" method="post">
+                                            <input type="text" name="name" value="<?= htmlspecialchars($category->getName()); ?>" required autofocus>
+                                            <input type="submit" style="display: none;"> <!-- Champ submit caché -->
+                                        </form>
+                                    <?php else: ?>
+                                        <div class="space">
+                                            <?= htmlspecialchars($category->getName()); ?>
+                                            <?php if ($currentUserRole === 'admin'): ?>
+                                            <div class="admin-choice">
+                                                <a href="index.php?page=home&action=edit-category&category-id=<?= htmlspecialchars($categoryId); ?>" class="edit-icon">
+                                                    <i class="fa-solid fa-gear"></i>
+                                                </a>
+                                                <a href="index.php?page=home&action=new-saloon&category-id=<?= htmlspecialchars($categoryId); ?>">
+                                                    <i class="fa-solid fa-circle-plus"></i>
+                                                </a>
+                                                <a href="index.php?page=home&action=delete-category&category-id=<?= htmlspecialchars($categoryId); ?>" class="delete-btn">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                </strong>
+                                
+                                <!-- *********************************************************************************
+                                     ************************* Navigation des salons ************************************ -->
+                                
+                                <ul>
+                                    <?php if ($action === 'new-saloon' && $currentCategoryId == $categoryId): ?>
+                                        <li>
+                                            <form action="index.php?page=home&action=add-saloon" method="post">
+                                                <input type="hidden" name="id-category" value="<?= htmlspecialchars($categoryId); ?>">
+                                                <input type="text" name="name" placeholder="Nom du salon" required autofocus>
+                                                <input type="submit" style="display: none;"> <!-- Champ submit caché -->
+                                            </form>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <?php if (isset($categorySaloons[$categoryId])): ?>
+                                        <?php foreach ($categorySaloons[$categoryId] as $saloon): ?>
+                                        <?php $saloonId = $saloon->getId(); ?>
+                                            <li>
+                                                <?php if($action === 'edit-saloon' && $saloonId == $currentSaloonId && $currentUserRole === 'admin'): ?>
+                                                    <form action="index.php?page=home&action=update-saloon&saloon-id=<?= htmlspecialchars($saloonId); ?>" method="post">
+                                                        <input type="text" name="name" value="<?= htmlspecialchars($saloonName); ?>" required autofocus>
+                                                        <input type="submit" style="display: none;"> <!-- Champ submit caché -->
+                                                    </form>
+                                                <?php else: ?>
+                                                <div class="space">
+                                                    <a href="index.php?page=home&saloon-id=<?= htmlspecialchars($saloonId); ?>" class='saloon main-link'>
+                                                        # <?= htmlspecialchars($saloon->getName()); ?>
+                                                    </a>
+                                                    <?php if ($currentUserRole === 'admin'): ?>
+                                                    <div class="admin-choice">
+                                                        <a href="index.php?page=home&action=edit-saloon&saloon-id=<?= htmlspecialchars($saloonId); ?>" class="edit-icon">
+                                                            <i class="fa-solid fa-gear"></i>
+                                                        </a>
+                                                        <a href="index.php?page=home&action=delete-saloon&saloon-id=<?= htmlspecialchars($saloonId); ?>" class="delete-btn">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <li>Aucun salon trouvé.</li>
+                                    <?php endif; ?>
+                                </ul>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- *********************************************************************************
+       ************************* Affichage du bloc central ************************************ -->
+       
+    <div class='main'>
+        <?php if ($action === 'new-server' || $action === 'join-server'): ?>
+        
+        <!-- ************************* Affichage du formulaire serveur ********************************** -->
+        
+            <?php require './views/home/main_content/server_create_form.phtml' ?>
+            
+        <?php elseif ($action === 'edit-server' || $action === 'edit-member' || $action === 'delete-member'): ?>
+        
+        <!-- ************************* Affichage des paramètres serveur ********************************** -->
+        
+            <?php require './views/home/main_content/server_setting.phtml' ?>
+        
+        <?php else: ?>
+        
+        <!-- ************************* Affichage du salon et ses messages ********************************** -->
+        
+            <?php if(!isset($saloonName)): ?>
+                <h3>Aucun salon sélectionné</h3>
+            <?php else: ?>
+                <h3><?= htmlspecialchars($saloonName); ?></h3>
+                
+                <?php require './views/home/main_content/chat.phtml' ?>
+                
+            <?php endif; ?>
+            
+        <?php endif; ?>
+    </div>
+</div>

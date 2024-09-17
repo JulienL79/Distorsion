@@ -1,0 +1,42 @@
+<h3>Paramètres</h3>
+
+<?php if($action === 'update-password'): ?>
+
+    <form method="post" class='bigForm signUp'>
+        
+        <label for="past-password">Mot de passe actuel:</label>
+        <input type="password" name="past-password" id="past-password" maxlength="255" required>
+        <?php if (!empty($errors['past-password'])): ?>
+            <div class="error"><?= htmlspecialchars($errors['past-password']) ?></div>
+        <?php endif; ?>
+        
+        <label for="password">Nouveau mot de passe :</label>
+        <input type="password" name="password" id="password" maxlength="255" required>
+        <?php if (!empty($errors['password'])): ?>
+            <div class="error"><?= htmlspecialchars($errors['password']) ?></div>
+        <?php endif; ?>
+        
+        <label for="password-confirm">Confirmez le nouveau mot de passe :</label>
+        <input type="password" name="password-confirm" id="password-confirm" maxlength="255" required>
+        <?php if (!empty($errors['password-confirm'])): ?>
+            <div class="error"><?= htmlspecialchars($errors['password-confirm']) ?></div>
+        <?php endif; ?>
+    
+        <button type="submit" name='submit'>Modifier</button>
+    </form>
+
+
+<?php else: ?>
+
+<div class="parameters">
+    <a href='index.php?page=profile&action=update-password' class='button'>Modifier mon mot de passe</a>
+    <?php if(isset($error)): ?>
+        <div class="error"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
+    <?php if(isset($success)): ?>
+        <div class="success"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
+    <a href='index.php?page=profile&action=delete-user' class='button delete-btn delete'>Supprimer le compte</a>
+</div>
+
+<?php endif; ?>
